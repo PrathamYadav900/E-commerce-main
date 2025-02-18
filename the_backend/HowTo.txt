@@ -1,0 +1,45 @@
+Setup hono because its a lightweight,fast and modern web framework for building APIs. Especially for handling HTTP requests and building microsevices
+and its works with cloudflare workers
+
+And now we are going to need a connection pool for cloudflare workers to connect to 
+because cloudflare workers open multiple severs all over the internet and that cant connect to the database correctly  
+so we will give our database(docker postgres) url to that connection pool that will connect to our database 
+get the connection pool url from prisma accelerate
+
+env would have local docker url(only used when we run prisma migrate) and wrangler.toml have connection pool
+then we will add prisma( i  prisma and prisma init) and then we will create character model 
+ -npx prima generate --no-engine  
+ npm install @prisma/extension-accelerate
+ import { PrismaClient } from '@prisma/client/edge'
+import { withAccelerate } from '@prisma/extension-accelerate'
+
+const prisma = new PrismaClient({
+    datasourceUrl: env.DATABASE_URL,
+}).$extends(withAccelerate())
+//super base password
+VvSrk*$#hAQQgGA9q^9bx 
+
+VvSrk%2A%24%23hAQQgGA9q%5E9bx
+
+
+then make auth rotues that are signup and signin 
+then add jwt to it 
+
+shift signin and signup to user.ts and  product routes to product.ts 
+
+use params to extract data from url 
+make a middleware using "use " and next() 
+and we will use set() and get() to set user id and get user id
+c.req.header("autherization) this is to pass the auth that we get when we signup 
+// c.set("userId",String(user.id)); // "c" does not have userID it have req , json and body  
+
+// create a common folder add typescript to it and do that rootdir ,outdir and declaration
+
+
+Ghost of Tsushima
+
+This is Ghost of Tsushima game and it is PlayStation exclusive
+
+2349
+
+https://m.media-amazon.com/images/I/81em1nszXNS._SX425_.jpg
