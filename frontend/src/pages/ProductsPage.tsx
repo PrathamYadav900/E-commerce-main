@@ -1,62 +1,62 @@
-// import { AllProductsdata } from '../data/AllProductsdata'
-import React, { useEffect, useState } from "react"
-import { ProductCard } from "../components/ProductCard"
-import { Product } from "../types/type"
-import axios from 'axios'
+import React, { useEffect, useState } from "react";
+import { ProductCard } from "../components/ProductCard";
+import { Product } from "../types/type";
+import axios from "axios";
 import ESkeleton from "../components/Skeleton";
 
-const API_URL = import.meta.env.VITE_API_URL ;
+const API_URL = import.meta.env.VITE_API_URL;
 
-interface AllProductsProp{
-  products : Product[]
+interface AllProductsProp {
+  products: Product[];
 }
 
-export const AllProducts:React.FC<AllProductsProp> = ({products}) => {
-    return (
-    <div className="flex flex-wrap justify-around items-center h-lvh">
-    
-    {products.map((product)=>(
-      <ProductCard key={product.id} product={product}/> 
-    ))}
+export const AllProducts: React.FC<AllProductsProp> = ({ products }) => {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))}
     </div>
-  )
-}
-// Making AllProduct components if i decide to use API Calls in the future and it also 
-// helps with reusagebilty by passing product as a prop not directing mapping over AllProduct Data
-
+  );
+};
 
 export const ProductsPage = () => {
-  const [product , setProduct] = useState([]); 
-  const [loading , setloading] = useState(true);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-   useEffect(()=>{
-    const fetchProducts = async ()=>{
-      try{
-        const res = await axios.get(`${API_URL}/api/v1/product/bulk`,{
-          headers :{
-            Authorization : localStorage.getItem("token")
-          }
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/v1/product/bulk`, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
         });
-        console.log(res.data.AllProduct);
-        setProduct(res.data.AllProduct)
+        setProducts(res.data.AllProduct);
+      } catch (e) {
+        setError("Failed to fetch products. Please try again later.");
+        console.error(e, "Error in ProductsPage", `URL: ${API_URL}`);
+      } finally {
+        setLoading(false);
       }
-      catch(e){
-        console.log(e,'error in ProductsPage',`and the url is ${API_URL}`)
-       }finally{
-        setloading(false)
-       }
-    }
-fetchProducts()
-   },[])
+    };
+    fetchProducts();
+  }, []);
 
-   if(loading)return <p>
-
-{/* For other variants, adjust the size with `width` and `height` */}
-<ESkeleton/>
-</p>
   return (
-    <div className='bg-black text-gray-200'>
-        <AllProducts products={product}/>
+    <div className="bg-black text-gray-200 min-h-screen p-6">
+      {loading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <ESkeleton key={index} />
+          ))}
+        </div>
+      ) : error ? (
+        <div className="text-red-400 text-xl text-center py-10">{error}</div>
+      ) : (
+        <AllProducts products={products} />
+      )}
     </div>
-  )
-}
+  );
+};
