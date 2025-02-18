@@ -41,7 +41,7 @@ export const ProductsPage = () => {
         setProduct(res.data.AllProduct)
       }
       catch(e){
-        console.log(e,'error in ProductsPage')
+        console.log(e,'error in ProductsPage',`and the url is ${API_URL}`)
        }finally{
         setloading(false)
        }
