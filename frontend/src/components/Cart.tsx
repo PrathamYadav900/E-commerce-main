@@ -7,6 +7,7 @@ import {
   selectTotalPrice,
   selectCartItems,
 } from "../features/AddToCart/CartSlice";
+import ESkeleton from "./Skeleton";
 
 export const Cart = () => {
   const dispatch = useDispatch();
@@ -108,9 +109,11 @@ export const Cart = () => {
             onClick={handleClearCart}
             className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg text-xl"
           >
+            
             Clear Cart
           </button>
         </div>
+      
       )}
     </div>
   );

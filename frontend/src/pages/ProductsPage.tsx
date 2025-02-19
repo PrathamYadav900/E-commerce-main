@@ -28,6 +28,8 @@ export const ProductsPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true)
+        console.log(loading)
         const res = await axios.get(`${API_URL}/api/v1/product/bulk`, {
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -48,9 +50,10 @@ export const ProductsPage = () => {
     <div className="bg-black text-gray-200 min-h-screen p-6">
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {Array.from({ length: 8 }).map((_, index) => (
-            <ESkeleton key={index} />
-          ))}
+         {Array.from({ length: 8 }).map((_, index) => (
+  <ESkeleton key={index} /> // ✅ Add a unique key
+))}
+
         </div>
       ) : error ? (
         <div className="text-red-400 text-xl text-center py-10">{error}</div>
